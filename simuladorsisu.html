@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/ag-grid-community/dist/styles/ag-grid.css">
+    <link rel="stylesheet" href="https://unpkg.com/ag-grid-community/dist/styles/ag-theme-balham.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style type="text/css">
+    .ag-theme-balham .rag-green,
+    .rag-green {
+        background-color: lightgreen;
+    }
+    .ag-theme-balham .rag-yellow,
+    .rag-yellow {
+        background-color: lightgoldenrodyellow;
+    }    
+    .ag-theme-balham .rag-red,
+    .rag-red {
+        background-color: lightsalmon;
+    }
+
+    .ag-header-cell-label .ag-header-cell-text {
+        white-space: normal !important;
+        text-align: center;
+    }
+
+    .input-group-prepend {
+        width: 8em !important;
+    }
+    .form-control {
+        text-align-last: center;
+    }
+
+    .legend-box-green {
+        border: 1px solid green;
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+    .legend-box-yellow {
+        border: 1px solid orange;
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+    .legend-box-red {
+        border: 1px solid brown;
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+
+    </style>
+    <script type="text/javascript" charset="utf-8">
+    const numberFormatter = (params) => {
+        var number = parseFloat(params.value);
+
+        if (isNaN(number))
+            number = null;
+
+        if (number != null)
+            return number.toFixed(2);
+        else
+            return number;
+    }          
+    const columnDefs = [
+
+    // ordem: universidade (fixo), cidade, sua nota, nc 2020, diferença, 
+        { headerName: 'Universidade', field: 'universidade', width: 100, cellStyle: { textAlign: "left" } }, 
+        { headerName: 'Cidade', field: 'cidade',  width: 175, cellStyle: { textAlign: "left" } },
+        { headerName: 'Sua Nota', field: 'nota', width: 80, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" } },
+        { headerName: 'Nota de corte 2019 1ª chamada', field: 'corte2019', width: 140, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },        
+        { headerName: 'Nota de Corte 2020 Dia 1', field: 'corte2020', width: 130, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: true },
+        { headerName: 'Nota de corte da última chamada de 2019', field: 'corteultimachamada', width: 160, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" } },
+
+        { headerName: 'Diferença sua nota e corte 1ª chamada', field: 'diferenca', width: 135, type: "numericColumn", valueFormatter: numberFormatter, sortingOrder: diferencaSorting, cellStyle: { textAlign: "center" }, hide: false },
+        { headerName: 'Vagas', field: 'vagas', width: 70, type: "numericColumn", cellStyle: { textAlign: "center" } }, // colocar nas últimas colunas        
+        { headerName: 'Número da chamada', field: 'nrochamada', width: 90, type: "numericColumn", cellStyle: { textAlign: "center" } },
+        { headerName: 'Posição na lista de espera', field: 'posicaolistaespera', width: 110, type: "numericColumn", cellStyle: { textAlign: "center" } },
+        { headerName: 'Diferenca corte 2019 última chamada', field: 'diferencaultchamada', width: 140, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: true },
+    ];
+    const gridOptions = {
+        columnDefs: columnDefs,
+        defaultColDef: {
+            sortable: true
+        },
+        // domLayout: 'autoHeight',
+        animateRows: true,
+        sortingOrder: ['desc', 'asc'],
+        rowClassRules: {
+            'rag-green': 'data.nota != null && data.diferenca != null && data.diferenca >= 0',
+            'rag-yellow': 'data.nota != null && (data.diferenca == null || data.diferenca < 0) && data.diferencaultchamada != null && data.diferencaultchamada >= 0',
+            'rag-red': 'data.nota != null && (data.diferenca == null || data.diferenca < 0) && data.diferencaultchamada != null && data.diferencaultchamada < 0',
+        }
+    };
+
+    function diferencaSorting(o1, o2) {
+
+        if (o1 == null || o2 == null || o1 == "" || o1 == "")
+            return -1;
+
+        return o1 > o2;
+    }
+
+    function diferencaUltimaChamadaSorting(o1, o2) {
+        if (o1 == null || o2 == null || o1 == "" || o1 == "")
+            return -1;
+
+        return o1 > o2;        
+    }
+
+    fetch('https://api.myjson.com/bins/179khk').then(function(response) {
+        return response.json();
+    }).then(function(rows) {
+        gridOptions.api.setRowData(rows);
+    });
+
+    function calcularNota() {
+        var itemsToUpdate = [];
+
+        gridOptions.api.forEachNode(function(rowNode, index) {
+            var data = rowNode.data;
+
+            var l = parseFloat(document.forms[0]["l"].value.replace(",", ".")) * data.LC;
+            var h = parseFloat(document.forms[0]["h"].value.replace(",", ".")) * data.CH;
+            var n = parseFloat(document.forms[0]["n"].value.replace(",", ".")) * data.CN;
+            var m = parseFloat(document.forms[0]["m"].value.replace(",", ".")) * data.MT;
+            var r = parseFloat(document.forms[0]["r"].value.replace(",", ".")) * data.RD;
+            var t = parseFloat(data.total);
+
+            data.vagas = parseInt(data.vagas);
+            data.nota = ((l + h + n + m + r) / t);
+            data.corte2020 = null;
+            data.diferenca = null;
+            data.diferencaultchamada = null;
+
+            if (data.nota > 0 && data.corte2019 != "")
+                data.diferenca = data.nota - data.corte2019;
+
+            if (data.nota > 0 && data.corteultimachamada != "")
+                data.diferencaultchamada = data.nota - data.corteultimachamada;
+
+            if (isNaN(data.nota))
+                data.nota = null;
+
+            // if (isNaN(data.corte2020) || data.corte2020 == null || data.corte2020 == "") {
+            //     data.corte2020 = null;
+            //     data.diferenca = null;
+            // } else {
+            //     data.diferenca = data.nota - data.corte2019;
+            // }
+
+            // if (isNaN(data.corte2019)) {
+            //     data.corte2019 = null;
+            //     data.diferenca = null;
+            // }
+
+            // console.log("%s: LC: %f, CH: %f, CN: %f, MT: %f, RD: %f, SOMA_PESOS: %f", data.universidade ,l,h,n,m,r,t);
+
+            itemsToUpdate.push(data);
+        });
+        gridOptions.api.setRowData(itemsToUpdate);
+        gridOptions.api.updateRowData({update: itemsToUpdate});
+
+        // var sort = [{ colId: 'diferenca', sort: 'desc' }];
+        // gridOptions.api.setSortModel(sort);
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var eGridDiv = document.querySelector('#myGrid');
+        new agGrid.Grid(eGridDiv, gridOptions);
+    });
+    </script>
+</head>
+
+<body>
+    <div class="container text-center">
+        <h4>Quer saber onde você passaria em medicina na ampla concorrência?</h4>
+        <br />
+        <h6>Notas de corte atualizadas em: <font color="red" id="atualizacao">01/01/2020 às 00:25</font>
+        </h6>
+        <br />
+        <h5>Informe suas notas</h5>
+        <div class="container col-md-4">
+                    <form>
+                        
+                        <div class="col-12">
+                            <div class="input-group input-group-lg mx-auto mb-1">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text w-100">Linguagens</label>
+                                </div>
+                                <input name="l" value="" type="number" pattern="\d+" min="1" max="1000" required class="form-control mx-auto">
+                            </div>
+
+                            <div class="input-group input-group-lg mx-auto mb-1">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text w-100">Humanas</label>
+                                </div>
+                                <input name="h" value="" type="number" pattern="\d+" min="1" max="1000" required class="form-control">
+                            </div>
+
+                            <div class="input-group input-group-lg mx-auto mb-1">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text w-100">Natureza</label>
+                                </div>
+                                <input name="n" value="" type="number" pattern="\d+" min="1" max="1000" required class="form-control">
+                            </div>
+
+                            <div class="input-group input-group-lg mx-auto mb-1">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text w-100">Matemática</label>
+                                </div>
+                                <input name="m" value="" type="number" pattern="\d+" min="1" max="1000" required class="form-control">
+                            </div>
+
+                            <div class="input-group input-group-lg mx-auto mb-1">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text w-100">Redação</label>
+                                </div>
+                                <input name="r" value="" type="number" pattern="\d+" min="1" max="1000" required class="form-control">
+                            </div>
+
+                            <div class="text-center m-3">
+                                <input type="button" value="Simular SISU" onclick="calcularNota()" class="btn-lg btn-primary">
+                            </div>
+
+                        </div>
+
+                        
+
+                    </form>
+        </div>
+        <div class="d-flex flex-row">
+            <div class="col mb-1 flex-column">
+                <span class="rag-green legend-box-green"></span>
+                <span class="ml-3">Sua nota está acima da nota de corte da primeira chamada do SISU 2019</span>
+            </div>
+            
+            <div class="col mb-1 flex-column">
+                <span class="rag-yellow legend-box-yellow"></span>
+                <span class="ml-3">Sua nota está acima da nota de corte da última chamada do SISU 2019</span>
+            </div>
+
+            <div class="col mb-1 flex-column">
+                <span class="rag-red legend-box-red"></span>
+                <span class="ml-3">Sua nota está abaixo da nota de corte da última chamada do SISU 2019</span>
+            </div>  
+        </div>            
+        <br />
+        <span class="font-weight-bold">Reciclagem Educacional 2020<br />Todos os direitos reservados</span>
+        <div class="container mb-2">
+            <div id="myGrid" class="ag-theme-balham" style="height: 470px"></div>
+        </div>
+    </div>
+</body>
+
+</html>
