@@ -75,7 +75,7 @@
         { headerName: 'Nota de Corte 2020 Dia 1', field: 'corte2020', width: 130, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: true },
         { headerName: 'Nota de corte da última chamada de 2019', field: 'corteultimachamada', width: 160, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" } },
 
-        { headerName: 'Diferença sua nota e corte 1ª chamada', field: 'diferenca', width: 135, type: "numericColumn", valueFormatter: numberFormatter, sortingOrder: diferencaSorting, cellStyle: { textAlign: "center" }, hide: false },
+        { headerName: 'Diferença sua nota e corte 1ª chamada', field: 'diferenca', width: 135, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },
         { headerName: 'Vagas', field: 'vagas', width: 70, type: "numericColumn", cellStyle: { textAlign: "center" } }, // colocar nas últimas colunas        
         { headerName: 'Número da chamada', field: 'nrochamada', width: 90, type: "numericColumn", cellStyle: { textAlign: "center" } },
         { headerName: 'Posição na lista de espera', field: 'posicaolistaespera', width: 110, type: "numericColumn", cellStyle: { textAlign: "center" } },
@@ -104,14 +104,14 @@
         return o1 > o2;
     }
 
-    function diferencaUltimaChamadaSorting(o1, o2) {
-        if (o1 == null || o2 == null || o1 == "" || o1 == "")
-            return -1;
+    var url = new URL(window.location.href);
+    var debug = url.searchParams.get("debug");
+    var URL = '1h9llk';
 
-        return o1 > o2;        
-    }
+    if (debug)
+        URL = 'https://api.myjson.com/bins/kcgva'
 
-    fetch('https://api.myjson.com/bins/179khk').then(function(response) {
+    fetch(URL).then(function(response) {
         return response.json();
     }).then(function(rows) {
         gridOptions.api.setRowData(rows);
@@ -131,41 +131,28 @@
             var t = parseFloat(data.total);
 
             data.vagas = parseInt(data.vagas);
-            data.nota = ((l + h + n + m + r) / t);
-            data.corte2020 = null;
+
+            if (l>0 && h>0 && n>0 && m>0 && r>0)
+                data.nota = ((l + h + n + m + r) / t);
+            else
+                data.nota = null
+
             data.diferenca = null;
             data.diferencaultchamada = null;
 
-            if (data.nota > 0 && data.corte2019 != "")
+            if (data.corte2019 != "")
                 data.diferenca = data.nota - data.corte2019;
 
-            if (data.nota > 0 && data.corteultimachamada != "")
+            if (data.corteultimachamada != "")
                 data.diferencaultchamada = data.nota - data.corteultimachamada;
-
-            if (isNaN(data.nota))
-                data.nota = null;
-
-            // if (isNaN(data.corte2020) || data.corte2020 == null || data.corte2020 == "") {
-            //     data.corte2020 = null;
-            //     data.diferenca = null;
-            // } else {
-            //     data.diferenca = data.nota - data.corte2019;
-            // }
-
-            // if (isNaN(data.corte2019)) {
-            //     data.corte2019 = null;
-            //     data.diferenca = null;
-            // }
-
-            // console.log("%s: LC: %f, CH: %f, CN: %f, MT: %f, RD: %f, SOMA_PESOS: %f", data.universidade ,l,h,n,m,r,t);
 
             itemsToUpdate.push(data);
         });
         gridOptions.api.setRowData(itemsToUpdate);
         gridOptions.api.updateRowData({update: itemsToUpdate});
 
-        // var sort = [{ colId: 'diferenca', sort: 'desc' }];
-        // gridOptions.api.setSortModel(sort);
+        var sort = [{ colId: 'diferenca', sort: 'desc' }];
+        gridOptions.api.setSortModel(sort);
     }
 
     document.addEventListener("DOMContentLoaded", function() {
@@ -179,7 +166,8 @@
     <div class="container text-center">
         <h4>Quer saber onde você passaria em medicina na ampla concorrência?</h4>
         <br />
-        <h6>Notas de corte atualizadas em: <font color="red" id="atualizacao">01/01/2020 às 00:25</font>
+        <h6>Dados atualizados em<br />
+            <span class="text-danger">17/01/2020 às 00:25</span>
         </h6>
         <br />
         <h5>Informe suas notas</h5>
@@ -233,7 +221,7 @@
                     </form>
         </div>
         <div class="d-flex flex-row">
-            <div class="col mb-1 flex-column">
+            <div class="col mb-1 flex-column flex-row">
                 <span class="rag-green legend-box-green"></span>
                 <span class="ml-3">Sua nota está acima da nota de corte da primeira chamada do SISU 2019</span>
             </div>

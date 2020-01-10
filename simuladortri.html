@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script>
+	function simularTRI() {
+		var notas = [ 20.03, 331.05, 342.69, 354.27, 366.36, 378.75, 392.02,
+				405.58, 419.60, 434.24, 448.92, 463.82, 478.47, 492.72, 506.18,
+				518.65, 530.16, 540.53, 550.10, 558.93, 567.21, 575.03, 582.64,
+				590.04, 597.34, 604.71, 612.03, 619.41, 627.00, 634.87, 642.89,
+				651.20, 660.02, 669.04, 678.57, 688.70, 699.04, 710.43, 722.58,
+				735.38, 750.32, 766.86, 790.03, 798.23, 799.23, 800.23, 29.98,
+				400.36, 406.87, 414.76, 422.80, 432.51, 443.00, 455.00, 468.69,
+				483.46, 500.40, 518.25, 536.46, 554.20, 570.16, 584.02, 595.68,
+				605.33, 613.35, 620.34, 626.64, 632.42, 638.01, 643.31, 648.40,
+				653.42, 658.43, 663.54, 668.58, 673.65, 678.78, 684.15, 689.71,
+				695.71, 701.81, 708.23, 715.18, 722.76, 731.11, 740.55, 750.66,
+				762.97, 777.46, 795.55, 819.03, 850.40, 60.70, 368.82, 375.23,
+				382.50, 390.97, 400.12, 410.32, 421.81, 434.63, 448.88, 464.48,
+				481.56, 499.57, 518.19, 536.44, 554.22, 570.42, 584.96, 598.03,
+				609.45, 619.86, 629.20, 637.90, 646.06, 653.79, 661.15, 668.30,
+				675.22, 682.20, 689.17, 696.30, 703.17, 710.81, 718.24, 726.33,
+				734.11, 742.90, 752.43, 761.88, 772.71, 786.36, 798.82, 817.59,
+				838.73, 863.99, 864.99, 91.87, 379.41, 388.15, 397.50, 407.90,
+				419.13, 431.72, 445.13, 460.06, 476.75, 495.11, 516.08, 538.72,
+				563.30, 589.20, 614.72, 638.44, 659.67, 677.52, 692.78, 705.76,
+				717.28, 728.10, 738.32, 748.58, 758.91, 769.00, 779.48, 790.35,
+				801.27, 812.31, 824.26, 836.33, 848.89, 862.20, 876.28, 890.38,
+				905.30, 919.39, 935.90, 951.22, 966.41, 979.05, 988.70, 996.10,
+				997.10 ]
+
+		var l = parseInt(document.forms[0]["l"].value);
+		var h = parseInt(document.forms[0]["h"].value) + 46;
+		var n = parseInt(document.forms[0]["n"].value) + 46 * 2;
+		var m = parseInt(document.forms[0]["m"].value) + 46 * 3;
+		var r = parseInt(document.forms[0]["r"].value);
+
+		var media = (notas[l] + notas[h] + notas[n] + notas[m] + r) / 5;
+		
+		document.getElementById("lo").innerHTML = notas[l].toFixed(2);
+		document.getElementById("ho").innerHTML = notas[h].toFixed(2);
+		document.getElementById("no").innerHTML = notas[n].toFixed(2);
+		document.getElementById("mo").innerHTML = notas[m].toFixed(2);
+		document.getElementById("nota").value = media.toFixed(2);
+	}
+</script>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<style type="text/css">
+.w-30 {
+    width: 30%!important;
+}
+</style>
+</head>
+<body>
+<div class="container-fluid col-md-3">
+	<h4 class="text-center"> Informe a quantidade de acertos</h4>
+	<form>
+		<div class="input-group mb-3">
+		  <div class="input-group-prepend w-30">
+		    <span class="input-group-text w-100">Linguagens</span>
+		  </div>
+		  <input name="l" type="text" class="form-control" placeholder="Quantidade de acertos" aria-label="Quantidade de acertos">
+		    <div class="input-group-append">
+		    	<span class="input-group-text" id="lo"></span>
+		  	</div>
+		</div>
+
+		<div class="input-group mb-3">
+		  <div class="input-group-prepend w-30">
+		    <span class="input-group-text w-100">Humanas</span>
+		  </div>
+		  <input name="h" type="text" class="form-control" placeholder="Quantidade de acertos" aria-label="Quantidade de acertos">
+		    <div class="input-group-append">
+		    	<span class="input-group-text" id="ho"></span>
+		  	</div>
+		</div>	
+
+		<div class="input-group mb-3">
+		  <div class="input-group-prepend w-30">
+		    <span class="input-group-text w-100">Natureza</span>
+		  </div>
+		  <input name="n" type="text" class="form-control" placeholder="Quantidade de acertos" aria-label="Quantidade de acertos">
+		    <div class="input-group-append">
+		    	<span class="input-group-text" id="no"></span>
+		  	</div>
+		</div>	
+
+		<div class="input-group mb-3">
+		  <div class="input-group-prepend w-30">
+		    <span class="input-group-text w-100">Matemática</span>
+		  </div>
+		  <input name="m" type="text" class="form-control" placeholder="Quantidade de acertos" aria-label="Quantidade de acertos" class="md-3">
+		    <div class="input-group-append md-3">
+		    	<span class="input-group-text" id="mo"></span>
+		  	</div>
+		</div>	
+
+		<div class="input-group mb-3">
+		  <div class="input-group-prepend w-30">
+		    <span class="input-group-text w-100">Redação</span>
+		  </div>
+		  <input name="r" type="text" class="form-control" placeholder="Quantidade de acertos" aria-label="Quantidade de acertos">
+		</div>
+
+		<div class="input-group mb-3">
+		  <div class="input-group-prepend w-30">
+		    <span class="input-group-text font-weight-bold w-100">Nota final</span>
+		  </div>
+		  <input id="nota" type="text" class="form-control text-center font-weight-bold" aria-label="Nota final" disabled>
+		</div>
+
+		<div class="text-center mb-3">
+			<input type="button" value="Simular TRI" onclick="simularTRI()" class="btn btn-primary">
+		</div>		
+	</form>
+</div>
+</body>
+</html>
