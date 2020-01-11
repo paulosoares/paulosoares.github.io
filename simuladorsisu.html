@@ -73,11 +73,10 @@
         { headerName: 'Sua Nota', field: 'nota', width: 80, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" } },
         { headerName: 'Nota de corte 2019 1ª chamada', field: 'corte2019', width: 140, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },        
         { headerName: 'Nota de Corte 2020 Dia 1', field: 'corte2020', width: 130, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: true },
-        { headerName: 'Nota de corte da última chamada de 2019', field: 'corteultimachamada', width: 160, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" } },
-
-        { headerName: 'Diferença sua nota e corte 1ª chamada', field: 'diferenca', width: 135, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },
+        { headerName: 'Nota de corte da última chamada de 2019', field: 'corteultimachamada', width: 180, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" } },
+        { headerName: 'Diferença sua nota e corte 1ª chamada', field: 'diferenca', width: 155, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },
         { headerName: 'Vagas', field: 'vagas', width: 70, type: "numericColumn", cellStyle: { textAlign: "center" } }, // colocar nas últimas colunas        
-        { headerName: 'Número da chamada', field: 'nrochamada', width: 90, type: "numericColumn", cellStyle: { textAlign: "center" } },
+        { headerName: 'Nº chamada', field: 'nrochamada', width: 90, type: "numericColumn", cellStyle: { textAlign: "center" } },
         { headerName: 'Posição na lista de espera', field: 'posicaolistaespera', width: 110, type: "numericColumn", cellStyle: { textAlign: "center" } },
         { headerName: 'Diferenca corte 2019 última chamada', field: 'diferencaultchamada', width: 140, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: true },
     ];
@@ -174,12 +173,12 @@
         <div class="container col-md-4">
                     <form>
                         
-                        <div class="col-12">
+                        <div class="form-group col-12">
                             <div class="input-group input-group-lg mx-auto mb-1">
                                 <div class="input-group-prepend">
                                     <label class="input-group-text w-100">Linguagens</label>
                                 </div>
-                                <input name="l" value="" type="number" pattern="\d+" min="1" max="1000" required class="form-control mx-auto">
+                                <input name="l" value="" type="number" pattern="\d+" min="1" max="1000" required class="form-control">
                             </div>
 
                             <div class="input-group input-group-lg mx-auto mb-1">
@@ -238,7 +237,7 @@
         </div>            
         <br />
         <span class="font-weight-bold">Reciclagem Educacional 2020<br />Todos os direitos reservados</span>
-        <div class="container mb-2">
+        <div class="mb-2">
             <div id="myGrid" class="ag-theme-balham" style="height: 470px"></div>
         </div>
     </div>
