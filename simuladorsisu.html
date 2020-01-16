@@ -24,6 +24,11 @@
         background-color: lightsalmon;
     }
 
+    .ag-theme-balham .rag-white,
+    .rag-white {
+        background-color: white;
+    }    
+
     .ag-header-cell-label .ag-header-cell-text {
         white-space: normal !important;
         text-align: center;
@@ -54,6 +59,11 @@
         padding-left: 12px;
         padding-right: 12px;
     }
+    .legend-box-white {
+        border: 1px solid black;
+        padding-left: 12px;
+        padding-right: 12px;
+    }    
     </style>
     <script type="text/javascript" charset="utf-8">
     const numberFormatter = (params) => {
@@ -212,17 +222,21 @@
             </div>
         </div>
         <div class="row text-justify">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <span class="rag-green legend-box-green"></span>
                 <span class="ml-3">Sua nota está acima da nota de corte da primeira chamada do SISU 2019</span>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <span class="rag-yellow legend-box-yellow"></span>
                 <span class="ml-3">Sua nota está acima da nota de corte da última chamada do SISU 2019</span>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <span class="rag-red legend-box-red"></span>
                 <span class="ml-3">Sua nota está abaixo da nota de corte da última chamada do SISU 2019</span>
+            </div>
+            <div class="col-md-3">
+                <span class="rag-white legend-box-white"></span>
+                <span class="ml-3">Dados não disponíveis nos sites oficiais para computar a nota</span>
             </div>
         </div>
         <br />
