@@ -101,8 +101,8 @@
         sortingOrder: ['desc', 'asc'],
         rowClassRules: {
             'rag-green': 'data.nota != null && data.diferenca != null && data.diferenca >= 0',
-            'rag-yellow': 'data.nota != null && (data.diferenca == null || data.diferenca < 0) && data.diferencaultchamada != null && data.diferencaultchamada >= 0',
-            'rag-red': 'data.nota != null && (data.diferenca == null || data.diferenca < 0) && data.diferencaultchamada != null && data.diferencaultchamada < 0',
+            'rag-yellow': 'data.nota != null && (data.diferenca != null && data.diferenca < 0) && data.diferencaultchamada != null && data.diferencaultchamada >= 0',
+            'rag-red': 'data.nota != null && data.diferencaultchamada != null && data.diferencaultchamada < 0',
         }
     };
 
@@ -117,7 +117,7 @@
     var url = new URL(window.location.href);
     var debug = url.searchParams.get("debug");
 
-    fetch('1h9llk').then(function(response) {
+    fetch('https://paulosoares.github.io/1h9llk').then(function(response) {
         return response.json();
     }).then(function(rows) {
         gridOptions.api.setRowData(rows);
