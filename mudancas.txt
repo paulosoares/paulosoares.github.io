@@ -1,0 +1,27 @@
+1) Atualizar base
+2) Atualizar a data e hora dos dados coletados
+3) Altera os labels da legenda
+4) Trocar a coluna NC2019 para NC2020 Dia 1
+5) Trocar a coluna "Diferença sua nota e corte 1ª chamada" para "Diferença sua nota e corte dia 1"
+6) Trocar a lógica da diferença, 
+	de:
+        if (data.corte2019 != "")
+            data.diferenca = data.nota - data.corte2019;
+	para:
+		if (data.corte2209 != "")
+                data.diferenca = data.nota - data.corte2020;
+
+7) Trocar a lógica das cores,
+	de:
+		rowClassRules: {
+	            'rag-green': 'data.nota != null && data.diferenca != null && data.diferenca >= 0',
+	            'rag-yellow': 'data.nota != null && (data.diferenca == null || data.diferenca < 0) && data.diferencaultchamada != null && data.diferencaultchamada >= 0',
+	            'rag-red': 'data.nota != null && (data.diferenca == null || data.diferenca < 0) && data.diferencaultchamada != null && data.diferencaultchamada < 0',
+	        }      
+	para:
+        rowClassRules: {
+            'rag-green': 'data.nota != null && data.diferenca != null && data.diferenca >= 3',
+            'rag-yellow': 'data.nota != null && data.diferenca != null && data.diferenca < 3 && data.diferenca >= -3',
+            'rag-red': 'data.nota != null && data.diferenca != null && data.diferenca < -3',
+        }
+          
