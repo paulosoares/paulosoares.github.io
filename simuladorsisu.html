@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Simulador SISU</title>
     <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/ag-grid-community/dist/styles/ag-grid.css">
     <link rel="stylesheet" href="https://unpkg.com/ag-grid-community/dist/styles/ag-theme-balham.css">
@@ -114,24 +115,25 @@
         return o1 > o2;
     }
 
-    var url = new URL(window.location.href);
-    var debug = url.searchParams.get("debug");
-
-    fetch('https://paulosoares.github.io/1h9llk').then(function(response) {
-        return response.json();
-    }).then(function(rows) {
-        gridOptions.api.setRowData(rows);
-    });
-
     function calcularNota() {
+        var lx = document.forms[0]["l"].value;
+        var hx = document.forms[0]["h"].value;
+        var nx = document.forms[0]["n"].value;
+        var mx = document.forms[0]["m"].value;
+        var rx = document.forms[0]["r"].value;
+
+    if (lx == "" || hx == "" || nx == "" || mx== "" || rx == "" )
+        return; 
+
         var itemsToUpdate = [];
+
 
         gridOptions.api.forEachNode(function(rowNode, index) {
             var data = rowNode.data;
 
             var l = parseFloat(document.forms[0]["l"].value.replace(",", ".")) * data.LC;
-            var h = parseFloat(document.forms[0]["h"].value.replace(",", ".")) * data.CH;
             var n = parseFloat(document.forms[0]["n"].value.replace(",", ".")) * data.CN;
+            var h = parseFloat(document.forms[0]["h"].value.replace(",", ".")) * data.CH;
             var m = parseFloat(document.forms[0]["m"].value.replace(",", ".")) * data.MT;
             var r = parseFloat(document.forms[0]["r"].value.replace(",", ".")) * data.RD;
             var t = parseFloat(data.total);
@@ -163,10 +165,31 @@
     }
 
     document.addEventListener("DOMContentLoaded", function() {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const l = urlParams.get('l');
+        const h = urlParams.get('h');
+        const n = urlParams.get('n');
+        const m = urlParams.get('m');
+        const r = urlParams.get('r');
+        
+        document.forms[0]["l"].value = l;
+        document.forms[0]["h"].value = h;
+        document.forms[0]["n"].value = n;
+        document.forms[0]["m"].value = m;
+        document.forms[0]["r"].value = r;
+
         var eGridDiv = document.querySelector('#myGrid');
         new agGrid.Grid(eGridDiv, gridOptions);
+    });    
+
+    fetch('https://paulosoares.github.io/1h9llk').then(function(response) {
+        return response.json();
+    }).then(function(rows) {
+        gridOptions.api.setRowData(rows);
+        calcularNota();
     });
-    </script>
+</script>
 </head>
 
 <body>
@@ -214,7 +237,7 @@
                                 <input name="r" value="" type="number" pattern="\d+" min="1" max="1000" required class="form-control">
                             </div>
                             <div class="text-center m-3">
-                                <input type="button" value="Simular SISU" onclick="calcularNota()" class="btn-lg btn-primary">
+                                <input id = "btnCalcularNota" type="button" value="Simular SISU" onclick="calcularNota()" class="btn-lg btn-primary">
                             </div>
                         </div>
                     </div>

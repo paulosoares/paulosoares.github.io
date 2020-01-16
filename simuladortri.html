@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Simulador TRI</title>
 <script>
 	function simularTRI() {
 		var notas = [ 20.03, 331.05, 342.69, 354.27, 366.36, 378.75, 392.02,
@@ -43,6 +44,22 @@
 		document.getElementById("no").innerHTML = notas[n].toFixed(2);
 		document.getElementById("mo").innerHTML = notas[m].toFixed(2);
 		document.getElementById("nota").value = media.toFixed(2);
+
+		var botao = document.getElementById("botaoSimularSISU");
+
+		botao.classList.remove("d-none");
+		// botao.classList.add("d-block");
+	}
+
+	function simularSISU() {
+		var l = document.getElementById("lo").innerHTML;
+		var h = document.getElementById("ho").innerHTML;
+		var n = document.getElementById("no").innerHTML;
+		var m = document.getElementById("mo").innerHTML;
+		var r = document.getElementById("ro").value;
+
+		window.open("simuladorsisu.html?l="+l+"&h="+h+"&n="+n+"&m="+m+"&r="+r, "simuladorsisu");
+
 	}
 </script>
 <!-- Bootstrap CSS -->
@@ -101,7 +118,7 @@
 		  <div class="input-group-prepend w-30">
 		    <span class="input-group-text w-100">Redação</span>
 		  </div>
-		  <input name="r" type="text" class="form-control" placeholder="Quantidade de acertos" aria-label="Quantidade de acertos">
+		  <input name="r" id="ro" type="text" class="form-control" placeholder="Quantidade de acertos" aria-label="Quantidade de acertos">
 		</div>
 
 		<div class="input-group mb-3">
@@ -110,10 +127,12 @@
 		  </div>
 		  <input id="nota" type="text" class="form-control text-center font-weight-bold" aria-label="Nota final" disabled>
 		</div>
-
-		<div class="text-center mb-3">
-			<input type="button" value="Simular TRI" onclick="simularTRI()" class="btn btn-primary">
-		</div>		
+		<div class="mb-3 col-12">
+			<div class="text-center">
+				<input type="button" value="Simular TRI" onclick="simularTRI()" class="btn btn-lg btn-primary">
+				<input id = "botaoSimularSISU" type="button" value="Simular SISU" onclick="simularSISU()" class="btn btn-lg btn-success d-none">
+			</div>
+		</div>
 	</form>
 </div>
 </body>
