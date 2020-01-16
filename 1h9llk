@@ -235,15 +235,15 @@
   "CH": "2", 
   "total": "20", 
   "notacandidato": "0.00", 
-  "posicaolistaespera": "", 
+  "posicaolistaespera": "3", 
   "corte2019": "795.05", 
   "MT": "4", 
   "cidade": "Jequié/BA", 
   "RD": "5", 
-  "corteultimachamada": "795.05", 
+  "corteultimachamada": "793.05", 
   "vagas": "7", 
-  "diferencaultchamada": "-795.05", 
-  "nrochamada": "", 
+  "diferencaultchamada": "-793.05", 
+  "nrochamada": "9", 
   "universidade": "UESB"
  }, 
  {
@@ -482,7 +482,7 @@
   "CH": "2", 
   "total": "12", 
   "notacandidato": "0.00", 
-  "posicaolistaespera": "", 
+  "posicaolistaespera": "0", 
   "corte2019": "798.66", 
   "MT": "2", 
   "cidade": "Teófilo Otoni/MG", 
@@ -490,7 +490,7 @@
   "corteultimachamada": "798.66", 
   "vagas": "7", 
   "diferencaultchamada": "-798.66", 
-  "nrochamada": "", 
+  "nrochamada": "0", 
   "universidade": "UFVJM"
  }, 
  {
@@ -501,7 +501,7 @@
   "CH": "2", 
   "total": "12", 
   "notacandidato": "0.00", 
-  "posicaolistaespera": "", 
+  "posicaolistaespera": "0", 
   "corte2019": "801.28", 
   "MT": "2", 
   "cidade": "Diamantina/MG", 
@@ -509,7 +509,7 @@
   "corteultimachamada": "801.28", 
   "vagas": "7", 
   "diferencaultchamada": "-801.28", 
-  "nrochamada": "", 
+  "nrochamada": "0", 
   "universidade": "UFVJM"
  }, 
  {
@@ -748,7 +748,7 @@
   "CH": "1", 
   "total": "5", 
   "notacandidato": "0.00", 
-  "posicaolistaespera": "", 
+  "posicaolistaespera": "1", 
   "corte2019": "790.94", 
   "MT": "1", 
   "cidade": "Dourados/MS", 
@@ -756,7 +756,7 @@
   "corteultimachamada": "790.36", 
   "vagas": "10", 
   "diferencaultchamada": "-790.36", 
-  "nrochamada": "", 
+  "nrochamada": "1", 
   "universidade": "UFGD"
  }, 
  {
@@ -957,7 +957,7 @@
   "CH": "1", 
   "total": "5", 
   "notacandidato": "0.00", 
-  "posicaolistaespera": "", 
+  "posicaolistaespera": "21", 
   "corte2019": "788.36", 
   "MT": "1", 
   "cidade": "Recife/PE", 
@@ -965,7 +965,7 @@
   "corteultimachamada": "783.38", 
   "vagas": "60", 
   "diferencaultchamada": "-783.38", 
-  "nrochamada": "", 
+  "nrochamada": "11", 
   "universidade": "UPE"
  }, 
  {
@@ -976,7 +976,7 @@
   "CH": "1", 
   "total": "5", 
   "notacandidato": "0.00", 
-  "posicaolistaespera": "", 
+  "posicaolistaespera": "4", 
   "corte2019": "783.98", 
   "MT": "1", 
   "cidade": "Serra Talhada/PE", 
@@ -984,7 +984,7 @@
   "corteultimachamada": "782.88", 
   "vagas": "8", 
   "diferencaultchamada": "-782.88", 
-  "nrochamada": "", 
+  "nrochamada": "2", 
   "universidade": "UPE"
  }, 
  {
@@ -995,7 +995,7 @@
   "CH": "1", 
   "total": "5", 
   "notacandidato": "0.00", 
-  "posicaolistaespera": "", 
+  "posicaolistaespera": "12", 
   "corte2019": "784.60", 
   "MT": "1", 
   "cidade": "Garanhuns/PE", 
@@ -1003,7 +1003,7 @@
   "corteultimachamada": "778.20", 
   "vagas": "16", 
   "diferencaultchamada": "-778.20", 
-  "nrochamada": "", 
+  "nrochamada": "7", 
   "universidade": "UPE"
  }, 
  {
@@ -1394,7 +1394,7 @@
   "CH": "1", 
   "total": "5", 
   "notacandidato": "0.00", 
-  "posicaolistaespera": "", 
+  "posicaolistaespera": "6", 
   "corte2019": "793.96", 
   "MT": "1", 
   "cidade": "Pelotas/RS", 
@@ -1402,7 +1402,7 @@
   "corteultimachamada": "", 
   "vagas": "20", 
   "diferencaultchamada": "0.00", 
-  "nrochamada": "", 
+  "nrochamada": "4", 
   "universidade": "UFPEL"
  }, 
  {
@@ -1527,7 +1527,7 @@
   "CH": "1", 
   "total": "5.5", 
   "notacandidato": "0.00", 
-  "posicaolistaespera": "", 
+  "posicaolistaespera": "8", 
   "corte2019": "820.67", 
   "MT": "1", 
   "cidade": "Florianópolis/SC", 
@@ -1535,7 +1535,7 @@
   "corteultimachamada": "", 
   "vagas": "15", 
   "diferencaultchamada": "0.00", 
-  "nrochamada": "", 
+  "nrochamada": "5", 
   "universidade": "UFSC"
  }, 
  {
