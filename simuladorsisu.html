@@ -92,9 +92,9 @@
     }
 
     const columnDefs = [
-        { headerName: 'Universidade', field: 'universidade', width: 100, cellStyle: { textAlign: "left" } },
-        { headerName: 'Cidade', field: 'cidadestr', width: 175, cellStyle: { textAlign: "left" } },
-        { headerName: 'Sua Nota', field: 'nota', width: 80, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" } },
+        { headerName: 'Universidade', field: 'universidade', width: 100, cellStyle: { textAlign: "left" }, tooltipField: 'pesos'},
+        { headerName: 'Cidade', field: 'cidadestr', width: 175, cellStyle: { textAlign: "left" }, tooltipField: 'pesos' },
+        { headerName: 'Sua Nota', field: 'nota', width: 80, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, tooltipField: 'pesos' },
         { headerName: 'Nota de corte 2019 1ª chamada', field: 'corte2019', width: 140, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: true },
         { headerName: 'Nota de Corte 2020 Dia 1', field: 'corte2020', width: 130, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },        
         { headerName: 'Diferença entre sua nota e o corte', field: 'diferenca', width: 155, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },
@@ -110,6 +110,7 @@
         defaultColDef: {
             sortable: true
         },
+        enableBrowserTooltips: true,
         animateRows: true,
         sortingOrder: ['desc', 'asc'],
         rowClassRules: {
@@ -160,6 +161,7 @@
             data.diferenca = null;
             data.diferencaultchamada = null;
             data.cidadestr = data.cidade + "/" + data.uf;
+            data.pesos = "Pesos\n" + "\nLC: " + data.LC + "\nCH: " + data.CH + "\nCN: " + data.CN + "\nMT: " + data.MT + "\nRD: " + data.RD;
 
             if (data.corte2020 != "" && data.corte2020 != 0)
                 data.diferenca = data.nota - data.corte2020;
