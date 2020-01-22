@@ -115,7 +115,7 @@
         rowClassRules: {
             'rag-green': 'data.nota != null && data.diferenca != null && data.diferenca >= 0',
             'rag-yellow': 'data.nota != null && (data.diferenca != null && data.diferenca < 0) && data.diferencaultchamada != null && data.diferencaultchamada >= 0',
-            'rag-red': 'data.nota != null && data.diferencaultchamada != null && data.diferencaultchamada < 0',
+            'rag-red': 'data.nota != null && data.diferenca <0 && data.diferencaultchamada != null && data.diferencaultchamada < 0',
         }
     };
 
@@ -165,6 +165,8 @@
 
             if (data.corteultimachamada != "")
                 data.diferencaultchamada = data.nota - data.corteultimachamada;
+
+            console.log(data.nota + ", " + data.corte2020 + ", " + data.diferenca + ", " + data.diferencaultchamada);
 
             itemsToUpdate.push(data);
         });
