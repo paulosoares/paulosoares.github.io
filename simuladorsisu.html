@@ -93,7 +93,7 @@
 
     const columnDefs = [
         { headerName: 'Universidade', field: 'universidade', width: 100, cellStyle: { textAlign: "left" } },
-        { headerName: 'Cidade', field: 'cidade', width: 175, cellStyle: { textAlign: "left" } },
+        { headerName: 'Cidade', field: 'cidadestr', width: 175, cellStyle: { textAlign: "left" } },
         { headerName: 'Sua Nota', field: 'nota', width: 80, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" } },
         { headerName: 'Nota de corte 2019 1ª chamada', field: 'corte2019', width: 140, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: true },
         { headerName: 'Nota de Corte 2020 Dia 1', field: 'corte2020', width: 130, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },        
@@ -159,7 +159,7 @@
 
             data.diferenca = null;
             data.diferencaultchamada = null;
-            data.cidade = data.cidade + "/" + data.uf;
+            data.cidadestr = data.cidade + "/" + data.uf;
 
             if (data.corte2020 != "" && data.corte2020 != 0)
                 data.diferenca = data.nota - data.corte2020;
