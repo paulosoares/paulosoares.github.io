@@ -93,7 +93,7 @@
 
     const columnDefs = [
         { headerName: 'Universidade', field: 'universidade', width: 100, cellStyle: { textAlign: "left" }, tooltipField: 'pesos'},
-        { headerName: 'Cidade', field: 'cidadestr', width: 175, cellStyle: { textAlign: "left" }, tooltipField: 'pesos' },
+        { headerName: 'Cidade', valueGetter: function(params) {return params.data.cidade + "/" + params.data.uf;}, width: 175, cellStyle: { textAlign: "left" }, tooltipField: 'pesos' },
         { headerName: 'Sua Nota', field: 'nota', width: 80, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, tooltipField: 'pesos' },
         { headerName: 'Nota de corte 2019 1ª chamada', field: 'corte2019', width: 140, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: true },
         { headerName: 'Nota de Corte 2020 Dia 1', field: 'corte2020', width: 130, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },        
@@ -160,7 +160,6 @@
 
             data.diferenca = null;
             data.diferencaultchamada = null;
-            data.cidadestr = data.cidade + "/" + data.uf;
             data.pesos = "Pesos\n" + "\nLC: " + data.LC + "\nCH: " + data.CH + "\nCN: " + data.CN + "\nMT: " + data.MT + "\nRD: " + data.RD;
 
             if (data.corte2020 != "" && data.corte2020 != 0)
