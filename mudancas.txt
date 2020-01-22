@@ -8,16 +8,16 @@
         if (data.corte2019 != "")
             data.diferenca = data.nota - data.corte2019;
 	para:
-		if (data.corte2209 != "")
+		if (data.corte2020 != "")
                 data.diferenca = data.nota - data.corte2020;
 
 7) Trocar a lógica das cores,
 	de:
-		rowClassRules: {
+        rowClassRules: {
 	            'rag-green': 'data.nota != null && data.diferenca != null && data.diferenca >= 0',
-	            'rag-yellow': 'data.nota != null && (data.diferenca == null || data.diferenca < 0) && data.diferencaultchamada != null && data.diferencaultchamada >= 0',
-	            'rag-red': 'data.nota != null && (data.diferenca == null || data.diferenca < 0) && data.diferencaultchamada != null && data.diferencaultchamada < 0',
-	        }      
+	            'rag-yellow': 'data.nota != null && (data.diferenca != null && data.diferenca < 0) && data.diferencaultchamada != null && data.diferencaultchamada >= 0',
+	            'rag-red': 'data.nota != null && data.diferencaultchamada != null && data.diferencaultchamada < 0',
+        }	        
 	para:
         rowClassRules: {
             'rag-green': 'data.nota != null && data.diferenca != null && data.diferenca >= 3',

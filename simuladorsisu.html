@@ -95,10 +95,10 @@
         { headerName: 'Universidade', field: 'universidade', width: 100, cellStyle: { textAlign: "left" } },
         { headerName: 'Cidade', field: 'cidade', width: 175, cellStyle: { textAlign: "left" } },
         { headerName: 'Sua Nota', field: 'nota', width: 80, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" } },
-        { headerName: 'Nota de corte 2019 1ª chamada', field: 'corte2019', width: 140, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },
-        { headerName: 'Nota de Corte 2020 Dia 1', field: 'corte2020', width: 130, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: true },
+        { headerName: 'Nota de corte 2019 1ª chamada', field: 'corte2019', width: 140, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: true },
+        { headerName: 'Nota de Corte 2020 Dia 1', field: 'corte2020', width: 130, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },        
+        { headerName: 'Diferença entre sua nota e o corte', field: 'diferenca', width: 155, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },
         { headerName: 'Nota de corte da última chamada de 2019', field: 'corteultimachamada', width: 180, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" } },
-        { headerName: 'Diferença sua nota e corte 1ª chamada', field: 'diferenca', width: 155, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },
         { headerName: 'Vagas', field: 'vagas', width: 60, type: "numericColumn", cellStyle: { textAlign: "center" } }, // colocar nas últimas colunas        
         { headerName: 'Nº chamada', field: 'nrochamada', width: 90, type: "numericColumn", cellStyle: { textAlign: "center" } },
         { headerName: 'Posição na lista de espera', field: 'posicaolistaespera', width: 110, type: "numericColumn", cellStyle: { textAlign: "center" } },
@@ -160,8 +160,8 @@
             data.diferenca = null;
             data.diferencaultchamada = null;
 
-            if (data.corte2019 != "")
-                data.diferenca = data.nota - data.corte2019;
+            if (data.corte2020 != "")
+                data.diferenca = data.nota - data.corte2020;
 
             if (data.corteultimachamada != "")
                 data.diferencaultchamada = data.nota - data.corteultimachamada;
@@ -195,7 +195,7 @@
         new agGrid.Grid(eGridDiv, gridOptions);
     });    
 
-    fetch('1h9llk').then(function(response) {
+    fetch('https://paulosoares.github.io/1h9llk').then(function(response) {
         return response.json();
     }).then(function(rows) {
         gridOptions.api.setRowData(rows);
@@ -209,7 +209,7 @@
         <h4>Quer saber onde você passaria em medicina na ampla concorrência?</h4>
         <br />
         <h6>Dados atualizados em<br />
-            <span class="text-danger">17/01/2020 às 00:25</span>
+            <span class="text-danger">22/01/2020 às 01:12</span>
         </h6>
         <br />
         <h5>Informe suas notas</h5>
@@ -259,20 +259,21 @@
         <div class="row text-justify">
             <div class="col-md-3">
                 <span class="rag-green legend-box-green"></span>
-                <span class="ml-3">Sua nota está acima da nota de corte da primeira chamada do SISU 2019</span>
+                <span class="ml-3">Sua nota está acima da nota de corte de 2020</span>
             </div>
             <div class="col-md-3">
                 <span class="rag-yellow legend-box-yellow"></span>
-                <span class="ml-3">Sua nota está acima da nota de corte da última chamada do SISU 2019</span>
+                <span class="ml-3">Sua nota está acima da nota de corte da última chamada de 2019</span>
             </div>
             <div class="col-md-3">
                 <span class="rag-red legend-box-red"></span>
-                <span class="ml-3">Sua nota está abaixo da nota de corte da última chamada do SISU 2019</span>
+                <span class="ml-3">Sua nota está abaixo da duas notas de corte</span>
             </div>
             <div class="col-md-3">
                 <span class="rag-white legend-box-white"></span>
-                <span class="ml-3">Dados não disponíveis nos sites oficiais para computar a nota</span>
+                <span class="ml-3">Não há dados sobre a última nota de corte de 2019</span>
             </div>
+
         </div>
         <br />
         <span class="font-weight-bold">Reciclagem Educacional 2020<br />Todos os direitos reservados</span>
