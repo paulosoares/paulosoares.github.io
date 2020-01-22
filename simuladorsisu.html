@@ -148,7 +148,7 @@
             var h = parseFloat(document.forms[0]["h"].value.replace(",", ".")) * data.CH;
             var m = parseFloat(document.forms[0]["m"].value.replace(",", ".")) * data.MT;
             var r = parseFloat(document.forms[0]["r"].value.replace(",", ".")) * data.RD;
-            var t = parseFloat(data.total);
+            var t = parseFloat(data.LC)+parseFloat(data.CN)+parseFloat(data.CH)+parseFloat(data.MT)+parseFloat(data.RD);
 
             data.vagas = parseInt(data.vagas);
 
@@ -160,7 +160,7 @@
             data.diferenca = null;
             data.diferencaultchamada = null;
 
-            if (data.corte2020 != "")
+            if (data.corte2020 != "" && data.corte2020 != 0)
                 data.diferenca = data.nota - data.corte2020;
 
             if (data.corteultimachamada != "")
