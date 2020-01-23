@@ -1,18 +1,19 @@
-#Lista de ofertas de medicina: 
+# Listar de ofertas de medicina: 
 $ curl 'https://sisu-api.apps.mec.gov.br/api/v1/oferta/curso/37' --compressed > cursos.json
 
-#Lista de modalidades de cada curso (o curl não está baixando, usei o echo para imprimir o comando):
-for i in `jq -r '.[] | .co_oferta?' cursos.json`; do bash -c "curl -s 'https://sisu-api.apps.mec.gov.br/api/v1/oferta/$i/modalidades' --compressed -o dia1/$i.json"; done
+# Listar modalidades de cada oferta
+for i in `jq -r '.[] | .co_oferta?' cursos.json`; do bash -c "curl -s 'https://sisu-api.apps.mec.gov.br/api/v1/oferta/$i/modalidades' --compressed -o dia2/$i.json"; done
 
-#Universidades e pesos:
+# Listar os pesos de cada universiade
 for i in `jq -r '.[] | .co_oferta?' cursos.json`; do jq -j '. | .oferta | .sg_ies, "\t", .no_municipio_ies, "/", .sg_uf_ies, "\t", .nu_peso_r, "\t", .nu_peso_cn, "\t", .nu_peso_ch, "\t", .nu_peso_l, "\t", .nu_peso_m, "\n"' dia1/$i.json; done
 
-#Notas de corte:
-for i in `jq -r '.[] | .co_oferta?' cursos.json`; do jq -c '{universidade:.oferta.sg_ies, cidade:.oferta.no_municipio_campus, uf:.oferta.sg_uf_campus, RD:.oferta.nu_peso_r, CN:.oferta.nu_peso_cn, CH:.oferta.nu_peso_ch, LC:.oferta.nu_peso_l, MT:.oferta.nu_peso_m, vagas:.modalidades[] | select(.co_concorrencia == "0") | .qt_vagas_concorrencia,  corte2020:.modalidades[] | select(.co_concorrencia == "0") | .nu_nota_corte}' dia1/$i.json ; done | jq -r 'join("\t")'
+# Listar notas de corte:
+for i in `jq -r '.[] | .co_oferta?' cursos.json`; do jq -c '{universidade:.oferta.sg_ies, cidade:.oferta.no_municipio_campus, uf:.oferta.sg_uf_campus, RD:.oferta.nu_peso_r, CN:.oferta.nu_peso_cn, CH:.oferta.nu_peso_ch, LC:.oferta.nu_peso_l, MT:.oferta.nu_peso_m, vagas:.modalidades[] | select(.co_concorrencia == "0") | .qt_vagas_concorrencia,  corte2020:.modalidades[] | select(.co_concorrencia == "0") | .nu_nota_corte}' dia2/$i.json ; done | jq -r 'join("\t")'
 
-#Listar todas as notas de corte de todas as modalidades
-for i in `jq -r '.[] | .co_oferta?' cursos.json`; do jq '.oferta as $oferta | .modalidades[] | {sg_ies: $oferta.sg_ies, no_municipio_campus:$oferta.no_municipio_campus, sg_uf_campus:$oferta.sg_uf_campus, nu_nota_corte: .nu_nota_corte, co_concorrencia: .co_concorrencia, tp_mod_concorrencia: .tp_mod_concorrencia, no_concorrencia: .no_concorrencia}' dia1/$i.json ; done | jq -r 'join("\t")' > notas_corte_dia1.tsv
+# Listar todas as notas de corte de todas as modalidades das ofertas de medicina
+for i in `jq -r '.[] | .co_oferta?' cursos.json`; do jq '.oferta as $oferta | .modalidades[] | {sg_ies: $oferta.sg_ies, no_municipio_campus:$oferta.no_municipio_campus, sg_uf_campus:$oferta.sg_uf_campus, nu_nota_corte: .nu_nota_corte, co_concorrencia: .co_concorrencia, tp_mod_concorrencia: .tp_mod_concorrencia, no_concorrencia: .no_concorrencia}' dia2/$i.json ; done | jq -r 'join("\t")' > notas_corte_dia2.tsv
 
-# Monitora a url até ela retornar 200
-bash -c 'while [[ "$(curl -s -o /tmp/escs -w ''%{http_code}'' https://sisu-api.apps.mec.gov.br/api/v1/oferta/116713/modalidades)" != "200" ]]; do sleep 5; done'
+# Monitorar a url até ela retornar 200
+bash -c 'while [[ "$(curl -s -o /tmp/escs -w ''%{http_code}'' https://sisualuno-api.apps.mec.gov.br/api/v1/oferta/116974/modalidades)" != "200" ]]; do sleep 5; done'
 
+# Atualizar horário de coleta dos dados
