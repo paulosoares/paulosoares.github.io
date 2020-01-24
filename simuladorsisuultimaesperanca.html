@@ -95,10 +95,11 @@
         { headerName: 'Universidade', field: 'universidade', width: 100, cellStyle: { textAlign: "left" }, tooltipField: 'pesos'},
         { headerName: 'Cidade', valueGetter: function(params) {return params.data.cidade + "/" + params.data.uf;}, width: 175, cellStyle: { textAlign: "left" }, tooltipField: 'pesos' },
         { headerName: 'Sua Nota', field: 'nota', width: 80, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, tooltipField: 'pesos' },
-        { headerName: 'Nota de corte 2019 1ª chamada', field: 'corte2019', width: 140, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: true },
-        { headerName: 'Nota de Corte 2020 Dia 3', field: 'corte2020', width: 130, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },        
-        { headerName: 'Diferença entre sua nota e o corte', field: 'diferenca', width: 155, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },
-        { headerName: 'Nota de corte da última chamada de 2019', field: 'corteultimachamada', width: 180, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" } },
+        { headerName: 'Corte 2019 1ª chamada', field: 'corte2019', width: 140, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },
+        { headerName: 'Corte 2019 última ', field: 'corteultimachamada', width: 180, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" } },       
+        { headerName: 'Nota de Corte 2020 Dia 2', field: 'corte2020', width: 130, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },        
+        { headerName: 'Diferenca cortes 2019', field: 'diferencacortes', width: 140, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },
+        { headerName: 'Diferença nota e corte 2020', field: 'diferenca', width: 155, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },
         { headerName: 'Vagas', field: 'vagas', width: 60, type: "numericColumn", cellStyle: { textAlign: "center" } }, // colocar nas últimas colunas        
         { headerName: 'Chamadas feitas', field: 'nrochamada', width: 90, type: "numericColumn", cellStyle: { textAlign: "center" } },
         { headerName: 'Posição último convocado', field: 'posicaolistaespera', width: 110, type: "numericColumn", cellStyle: { textAlign: "center" } },
@@ -114,9 +115,7 @@
         animateRows: true,
         sortingOrder: ['desc', 'asc'],
         rowClassRules: {
-            'rag-green': 'data.nota != null && data.diferenca != null && data.diferenca >= 0',
-            'rag-yellow': 'data.nota != null && (data.diferenca != null && data.diferenca < 0) && data.diferencaultchamada != null && data.diferencaultchamada >= 0',
-            'rag-red': 'data.nota != null && data.diferenca <0 && data.diferencaultchamada != null && data.diferencaultchamada < 0',
+            'rag-green': 'data.diferencacortes != "0.00" && data.corteultimachamada != "" && data.diferenca >= data.diferencacortes',
         }
     };
 
@@ -168,6 +167,8 @@
             if (data.corteultimachamada != "")
                 data.diferencaultchamada = data.nota - data.corteultimachamada;
 
+            data.diferencacortes = data.corteultimachamada - data.corte2019;
+
             itemsToUpdate.push(data);
         });
 
@@ -211,7 +212,7 @@
         <h4>Quer saber onde você passaria em medicina na ampla concorrência?</h4>
         <br />
         <h6>Dados atualizados em<br />
-            <span class="text-danger">24/01/2020 às 00:20</span>
+            <span class="text-danger">23/01/2020 às 00:31</span>
         </h6>
         <br />
         <h5>Informe suas notas</h5>
