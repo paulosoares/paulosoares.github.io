@@ -100,6 +100,7 @@
         { headerName: 'Nota de Corte 2020 Dia 5', field: 'corte2020', width: 130, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },        
         { headerName: 'Diferenca cortes 2019', field: 'diferencacortes', width: 140, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },
         { headerName: 'Diferença nota e corte 2020', field: 'diferenca', width: 155, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },
+        { headerName: 'Diferença das diferencas', valueGetter: function(params) {return params.data.diferenca - params.data.diferencacortes;}, width: 155, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },
         { headerName: 'Vagas', field: 'vagas', width: 60, type: "numericColumn", cellStyle: { textAlign: "center" } }, // colocar nas últimas colunas        
         { headerName: 'Chamadas feitas', field: 'nrochamada', width: 90, type: "numericColumn", cellStyle: { textAlign: "center" } },
         { headerName: 'Posição último convocado', field: 'posicaolistaespera', width: 110, type: "numericColumn", cellStyle: { textAlign: "center" } },
@@ -166,8 +167,13 @@
 
             if (data.corteultimachamada != "")
                 data.diferencaultchamada = data.nota - data.corteultimachamada;
+            else
+                data.diferencaultchamada = "";
 
-            data.diferencacortes = data.corteultimachamada - data.corte2019;
+            if (data.corteultimachamada != "")
+                data.diferencacortes = data.corteultimachamada - data.corte2019;
+            else
+                data.diferencacortes = "";
 
             itemsToUpdate.push(data);
         });
