@@ -43,24 +43,3 @@ for i in `jq -r '.[] | .co_oferta?' cursos.json`; do jq '.oferta as $oferta | .m
 
 # Monitorar a url até ela retornar 200
 bash -c 'while [[ "$(curl -s -o /tmp/escs -w ''%{http_code}'' https://sisualuno-api.apps.mec.gov.br/api/v1/oferta/116974/modalidades)" != "200" ]]; do sleep 5; done'
-
-# Atualizar horário de coleta dos dados
-
-
-for i in `jq -r '.[] | .co_oferta?' cursos.json`; do jq -c '{corte2020:.modalidades[] | select(.co_concorrencia == "0") | .dt_nota_corte}' dia4/$i.json ; done | jq -r 'join("\t")'
-
-3568-4303
-3567-9899
-
-2,49
-
-1002237-70.2020.4.01.3800
-
-{co_termo_adesao: .oferta.co_termo_adesao, no_curso: .oferta.no_curso, qt_vagas_sem1: .oferta.qt_vagas_sem1, qt_vagas_sem2: .oferta.qt_vagas_sem2, no_turno: .oferta.no_turno, no_campus: .oferta.no_campus, sg_uf_campus: .oferta.sg_uf_campus, no_ies: .oferta.no_ies, sg_ies: .oferta.sg_ies, no_municipio_campus: .oferta.no_municipio_campus, no_sitio_ies: .oferta.no_sitio_ies, co_concorrencia:.modalidades[] | .co_concorrencia,  no_concorrencia:.modalidades[] | .no_concorrencia,  qt_vagas:.modalidades[] | .qt_vagas,  qt_vagas_concorrencia:.modalidades[] | .qt_vagas_concorrencia,  nu_nota_corte:.modalidades[] | .nu_nota_corte,  tp_mod_concorrencia:.modalidades[] | .tp_mod_concorrencia} 
-
-co_concorrencia
-no_concorrencia
-qt_vagas
-qt_vagas_concorrencia
-nu_nota_corte
-tp_mod_concorrencia
