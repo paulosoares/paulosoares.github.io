@@ -97,7 +97,7 @@
         { headerName: 'Sua Nota', field: 'nota', width: 80, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, tooltipField: 'pesos' },
         { headerName: 'Corte 2019 1ª chamada', field: 'corte2019', width: 140, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },
         { headerName: 'Corte 2019 última ', field: 'corteultimachamada', width: 180, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" } },       
-        { headerName: 'Nota de Corte 2020 Dia 2', field: 'corte2020', width: 130, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },        
+        { headerName: 'Nota de Corte 2020 Dia 5', field: 'corte2020', width: 130, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },        
         { headerName: 'Diferenca cortes 2019', field: 'diferencacortes', width: 140, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },
         { headerName: 'Diferença nota e corte 2020', field: 'diferenca', width: 155, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },
         { headerName: 'Vagas', field: 'vagas', width: 60, type: "numericColumn", cellStyle: { textAlign: "center" } }, // colocar nas últimas colunas        
@@ -198,7 +198,7 @@
         new agGrid.Grid(eGridDiv, gridOptions);
     });    
 
-    fetch('https://paulosoares.github.io/1h9llk').then(function(response) {
+    fetch('https://paulosoares.github.io/bddia5').then(function(response) {
         return response.json();
     }).then(function(rows) {
         gridOptions.api.setRowData(rows);
@@ -212,7 +212,7 @@
         <h4>Quer saber onde você passaria em medicina na ampla concorrência?</h4>
         <br />
         <h6>Dados atualizados em<br />
-            <span class="text-danger">23/01/2020 às 00:31</span>
+            <span class="text-danger">26/01/2020 às 00:15</span>
         </h6>
         <br />
         <h5>Informe suas notas</h5>
