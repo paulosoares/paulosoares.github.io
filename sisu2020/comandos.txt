@@ -48,3 +48,19 @@ for j in `find instituicoes/ -type f | grep -f lista_globo`; do for i in `jq -r 
 ###### Monitoramento ######
 # Monitorar liberação das notas
 bash -c 'echo -e "\nAguarde..."; while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' https://sisualuno-api.apps.mec.gov.br/api/v1/oferta/116974/modalidades)" != "200" ]]; do sleep 5; done; echo -e "Dados carregados"'
+
+
+###### Baixar lista de selecionados ######
+mkdir -p selecionados
+for j in `find cursos/ -type f`; do for i in `jq -r '.[] | .co_oferta?' $j`; do echo "selecionados/$i.json"; bash -c "curl -# 'https://sisu-api.apps.mec.gov.br/api/v1/oferta/$i/selecionados' --compressed -o selecionados/$i.json"; done; done
+
+
+echo -e "co_inscricao_enem\\tno_inscrito\\tnu_classificacao\\tnu_nota_candidato\\tqt_bonus_perc\\ttp_mod_concorrencia\\tco_mod_concorrencia\\tno_mod_concorrencia\\tco_legenda\\tds_legenda" > escs_selecionados.tsv
+
+jq -c '.[] | {co_inscricao_enem:.co_inscricao_enem, no_inscrito:.no_inscrito,nu_classificacao:.nu_classificacao,nu_nota_candidato:.nu_nota_candidato,qt_bonus_perc:.qt_bonus_perc,tp_mod_concorrencia:.tp_mod_concorrencia,co_mod_concorrencia:.co_mod_concorrencia,no_mod_concorrencia:.no_mod_concorrencia,co_legenda:.co_legenda,ds_legenda:.ds_legenda}' selecionados | jq -r 'join("\t")'
+
+
+https://sisu.mec.gov.br/static/relatorio/vagas-ofertadas-1-2020.zip
+
+https://sisu.mec.gov.br/static/listagem-alunos-aprovados-portal/listagem-alunos-aprovados-ies-"+l+"-"+n+".csv"
+https://sisu.mec.gov.br/static/listagem-alunos-aprovados-portal/listagem-alunos-aprovado-"+l+".csv"
