@@ -62,7 +62,19 @@ bash -c 'echo -e "\nAguarde..."; while [[ "$(curl -s -o /dev/null -w ''%{http_co
 mkdir -p selecionados
 for j in `find cursos/ -type f`; do for i in `jq -r '.[] | .co_oferta?' $j`; do echo "selecionados/$i.json"; bash -c "curl -# 'https://sisu-api.apps.mec.gov.br/api/v1/oferta/$i/selecionados' --compressed -o selecionados/$i.json"; done; done
 
+mkdir -p selecionados_csv_mec
+while read ies termo; do bash -c "curl -C - -# 'https://sisu.mec.gov.br/static/listagem-alunos-aprovados-portal/listagem-alunos-aprovados-ies-$ies-$termo.csv' -o selecionados_csv_mec/$ies.json --compressed"; done <<< `jq -r 'del(.search_rule) | .[] | {co_ies, co_termo_adesao} | join("\t")' cursos/*.json | sort -u`
 
 ###### Gerar lista de selecionados ######
 echo -e "no_curso\\tsg_ies\\tno_municipio_campus\\tsg_uf_campus\\tco_inscricao_enem\\tno_inscrito\\tnu_classificacao\\tnu_nota_candidato\\tqt_bonus_perc\\ttp_mod_concorrencia\\tco_mod_concorrencia\\tno_mod_concorrencia\\tco_legenda\\tds_legenda" > selecionados.tsv
 for j in `find cursos/ -type f`; do for i in `jq -r 'del(.search_rule) | .[] | .co_oferta' $j`; do jq -r -n --argfile o1 final/$i.json --argfile o2 selecionados/$i.json '$o1.oferta as $o | .selecionados = $o2 | .selecionados | .[] | {no_curso: $o.no_curso, sg_ies: $o.sg_ies, no_municipio_campus: $o.no_municipio_campus, sg_uf_campus: $o.sg_uf_campus, co_inscricao_enem, no_inscrito, nu_classificacao, nu_nota_candidato, qt_bonus_perc, tp_mod_concorrencia, co_mod_concorrencia, no_mod_concorrencia, co_legenda, ds_legenda}' | jq -r 'join("\t")'; done; done >> selecionados.tsv
+
+###### Comparar lista de selecionados JSON com CSV ######
+
+for i in `find selecionados/ -type f`; do jq -r ".[] | .no_inscrito" $i; done >> selecionados_json.txt
+sort selecionados_json.txt -o selecionados_json_ordenado.txt
+
+for i in `find selecionados_csv_mec/* -type f`; do csvjson -d ';' -K 1 -H $i | jq -r ".[] | .l"; done > selecionados_csv_mec.txt
+sort selecionados_csv_mec.txt -o selecionados_csv_mec_ordenado.txt
+
+diff selecionados_json_ordenado.txt selecionados_csv_mec_ordenado.txt | less
