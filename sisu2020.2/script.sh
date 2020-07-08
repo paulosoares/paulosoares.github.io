@@ -39,11 +39,11 @@ for j in `find cursos/37.json -type f`; do for i in `jq -r '.[] | .co_oferta?' $
 # Gerar notas de corte de ampla concorrência (co_concorrencia == 0):
 # echo "universidade;cidade;uf;RD;CN;CH;LC;MT;vagas;corte2020;notacandidato;diferenca2020;corte2019;corteultimachamada;diferencaultchamada;posicaolistaespera;nrochamada" > bd$DIA.tsv
 echo "[" > bd$DIA; 
-for i in `jq -r '.[] | .co_oferta?' cursos/37.json`; do jq -c '{universidade:.oferta.sg_ies, cidade:.oferta.no_municipio_campus, uf:.oferta.sg_uf_campus, RD:.oferta.nu_peso_r, CN:.oferta.nu_peso_cn, CH:.oferta.nu_peso_ch, LC:.oferta.nu_peso_l, MT:.oferta.nu_peso_m, vagas:.modalidades[] | select(.co_concorrencia == "0") | .qt_vagas_concorrencia,  corte2020:.modalidades[] | select(.co_concorrencia == "0") | .nu_nota_corte}' $DIA/$i.json ; done >> bd$DIA
+for i in `jq -r '.[] | .co_oferta?' cursos/37.json`; do jq -c '{universidade:.oferta.sg_ies, cidade:.oferta.no_municipio_campus, uf:.oferta.sg_uf_campus, RD:.oferta.nu_peso_r, CN:.oferta.nu_peso_cn, CH:.oferta.nu_peso_ch, LC:.oferta.nu_peso_l, MT:.oferta.nu_peso_m, vagas:.modalidades[] | select(.co_concorrencia == "0") | .qt_vagas_concorrencia,  corte2020:.modalidades[] | select(.co_concorrencia == "0") | .nu_nota_corte}' $DIA/$i.json; echo ","; done >> bd$DIA
 echo "]" >> bd$DIA;
 
 #Atualiza o horário
-date +"[{horario: \"%x às %X\"}]" > horario
+date +"%x às %X ($DIA)" > horario
 
 
 ###### Monitoramento ######
