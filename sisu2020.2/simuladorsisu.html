@@ -96,7 +96,7 @@
         { headerName: 'Cidade', valueGetter: function(params) {return params.data.cidade + "/" + params.data.uf;}, width: 175, cellStyle: { textAlign: "left" }, tooltipField: 'pesos' },
         { headerName: 'Sua Nota', field: 'nota', width: 80, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, tooltipField: 'pesos' },
         { headerName: 'Nota de corte 2019 1ª chamada', field: 'corte2019', width: 140, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: true  },
-        { headerName: 'Nota de Corte 2020 final', field: 'corte2020', width: 130, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: true },        
+        { headerName: 'Nota de Corte 2020', field: 'corte2020', width: 130, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },        
         { headerName: 'Diferença entre sua nota e o corte', field: 'diferenca', width: 155, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },
         { headerName: 'Nota de corte da última chamada de 2019', field: 'corteultimachamada', width: 180, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center"}, hide: true },
         { headerName: 'Vagas', field: 'vagas', width: 60, type: "numericColumn", cellStyle: { textAlign: "center" }, hide: true }, // colocar nas últimas colunas        
