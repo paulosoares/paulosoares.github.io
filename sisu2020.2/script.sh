@@ -37,9 +37,11 @@ for j in `find cursos/ -type f | grep -f lista`; do for i in `jq -r '.[] | .co_o
 for j in `find cursos/37.json -type f`; do for i in `jq -r '.[] | .co_oferta?' $j`; do jq '.oferta as $oferta | .modalidades[] | {no_curso: $oferta.no_curso, sg_ies: $oferta.sg_ies, no_municipio_campus:$oferta.no_municipio_campus, sg_uf_campus:$oferta.sg_uf_campus, nu_nota_corte: .nu_nota_corte, co_concorrencia: .co_concorrencia, tp_mod_concorrencia: .tp_mod_concorrencia, no_concorrencia: .no_concorrencia}' $DIA/$i.json ; done; done | jq -r 'join("\t")' > corte_medicina_$DIA.tsv
 
 # Gerar notas de corte de ampla concorrência (co_concorrencia == 0):
+for i in `jq -r '.[] | .co_oferta?' cursos/37.json`; do jq -c '{universidade:.oferta.sg_ies, cidade:.oferta.no_municipio_campus, uf:.oferta.sg_uf_campus, RD:.oferta.nu_peso_r, CN:.oferta.nu_peso_cn, CH:.oferta.nu_peso_ch, LC:.oferta.nu_peso_l, MT:.oferta.nu_peso_m, vagas:.modalidades[] | select(.co_concorrencia == "0") | .qt_vagas_concorrencia,  corte2020:.modalidades[] | select(.co_concorrencia == "0") | .nu_nota_corte}' $DIA/$i.json; done >> bd$DIA_temp
 echo "[" > bd$DIA; 
-for i in `jq -r '.[] | .co_oferta?' cursos/37.json`; do jq -c '{universidade:.oferta.sg_ies, cidade:.oferta.no_municipio_campus, uf:.oferta.sg_uf_campus, RD:.oferta.nu_peso_r, CN:.oferta.nu_peso_cn, CH:.oferta.nu_peso_ch, LC:.oferta.nu_peso_l, MT:.oferta.nu_peso_m, vagas:.modalidades[] | select(.co_concorrencia == "0") | .qt_vagas_concorrencia,  corte2020:.modalidades[] | select(.co_concorrencia == "0") | .nu_nota_corte}' $DIA/$i.json; echo -e ","; done >> bd$DIA
-echo "{}]" >> bd$DIA;
+paste -sd "," bd$DIA_temp >> bd$DIA
+echo "]" >> bd$DIA;
+rm bd$DIA_temp;
 
 #Atualiza o horário
 date +"%x às %X ($DIA)" > horario
