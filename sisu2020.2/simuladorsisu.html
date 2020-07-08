@@ -81,8 +81,8 @@
     <script type="text/javascript" charset="utf-8">
 
     $.get("https://paulosoares.github.io/sisu2020.2/horario", function(data, status){
-        $("#atualizacao").innerHTML = data;
-      });
+        document.getElementById("atualizacao").innerHTML = data;
+    });
 
     const numberFormatter = (params) => {
         var number = parseFloat(params.value);
