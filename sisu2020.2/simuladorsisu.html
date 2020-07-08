@@ -120,8 +120,7 @@
         sortingOrder: ['desc', 'asc'],
         rowClassRules: {
             'rag-green': 'data.nota != null && data.diferenca != null && data.diferenca >= 0',
-            'rag-yellow': 'data.nota != null && (data.diferenca != null && data.diferenca < 0) && data.diferencaultchamada != null && data.diferencaultchamada >= 0',
-            'rag-red': 'data.nota != null && data.diferenca <0 && data.diferencaultchamada != null && data.diferencaultchamada < 0',
+            'rag-red': 'data.nota != null && data.diferenca <0',
         }
     };
 
@@ -266,21 +265,12 @@
         <div class="row text-justify">
             <div class="col-md-3">
                 <span class="rag-green legend-box-green"></span>
-                <span class="ml-3">Sua nota está acima da nota de corte de 2020</span>
-            </div>
-            <div class="col-md-3">
-                <span class="rag-yellow legend-box-yellow"></span>
-                <span class="ml-3">Sua nota está acima da nota de corte da última chamada de 2019</span>
+                <span class="ml-3">Sua nota está ACIMA da nota de corte</span>
             </div>
             <div class="col-md-3">
                 <span class="rag-red legend-box-red"></span>
-                <span class="ml-3">Sua nota está abaixo da duas notas de corte</span>
+                <span class="ml-3">Sua nota está ABAIXO da nota de corte</span>
             </div>
-            <div class="col-md-3">
-                <span class="rag-white legend-box-white"></span>
-                <span class="ml-3">Não há dados sobre a última nota de corte de 2019</span>
-            </div>
-
         </div>
         <br />
         <span class="font-weight-bold">Reciclagem Educacional 2020<br />Todos os direitos reservados</span>
