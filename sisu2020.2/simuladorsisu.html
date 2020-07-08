@@ -79,6 +79,19 @@
     }    
     </style>
     <script type="text/javascript" charset="utf-8">
+    $.ajax({
+      url: 'https://paulosoares.github.io/sisu2020.2/horario',
+      beforeSend: function( xhr ) {
+        xhr.overrideMimeType( "text/plain; charset=x-user-defined" );
+      }
+    })
+      .done(function( data ) {
+        if ( console && console.log ) {
+          console.log( "Sample of data:", data);
+        }
+        $("#atualizacao").innerHTML = data;
+      });
+
     const numberFormatter = (params) => {
         var number = parseFloat(params.value);
 
@@ -211,7 +224,7 @@
         <h4>Quer saber onde você passaria em medicina na ampla concorrência?</h4>
         <br />
         <h6>Dados atualizados em<br />
-            <span class="text-danger">08/07/2020 às 09:30</span>
+            <span class="text-danger" id="atualizacao">08/07/2020 às 09:30</span>
         </h6>
         <br />
         <h5>Informe suas notas</h5>
