@@ -201,7 +201,7 @@
         new agGrid.Grid(eGridDiv, gridOptions);
     });    
 
-    fetch('https://paulosoares.github.io/sisu2020.2/bddia1').then(function(response) {
+    fetch('https://paulosoares.github.io/sisu2020.2/bd').then(function(response) {
         return response.json();
     }).then(function(rows) {
         gridOptions.api.setRowData(rows);
