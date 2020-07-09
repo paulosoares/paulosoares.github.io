@@ -101,8 +101,8 @@
         { headerName: 'Cidade', valueGetter: function(params) {return params.data.cidade + "/" + params.data.uf;}, width: 175, cellStyle: { textAlign: "left" }, tooltipField: 'pesos' },
         { headerName: 'Sua Nota', field: 'nota', width: 80, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, tooltipField: 'pesos' },
         { headerName: 'Nota de corte 2019 1ª chamada', field: 'corte2019', width: 140, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: true  },
-        { headerName: 'Nota de Corte', field: 'corte2020', width: 130, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },        
-        { headerName: 'Diferença entre sua nota e o corte', field: 'diferenca', width: 155, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },
+        { headerName: 'Nota de Corte', field: 'corte2020', width: 80, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },        
+        { headerName: 'Diferença', field: 'diferenca', width: 80, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },
         { headerName: 'Nota de corte da última chamada de 2019', field: 'corteultimachamada', width: 180, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center"}, hide: true },
         { headerName: 'Vagas', field: 'vagas', width: 60, type: "numericColumn", cellStyle: { textAlign: "center" }, hide: true }, // colocar nas últimas colunas        
         { headerName: 'Chamadas feitas', field: 'nrochamada', width: 90, type: "numericColumn", cellStyle: { textAlign: "center" }, hide: true },
@@ -211,7 +211,7 @@
 </head>
 
 <body>
-    <div class="container text-center">
+    <div class="container text-center" style="width: 550px;">
         <h4>Quer saber onde você passaria em medicina na ampla concorrência?</h4>
         <br />
         <h6>Dados atualizados em<br />
@@ -272,10 +272,7 @@
                 </form>
             </div>
         </div>        
-        <br />
-        <div class="container-fluid h-100">
-            <div id="myGrid" class="ag-theme-balham text-center" style="height: 300px; width: 660px; margin-left: 200px"></div>
-        </div>
+        <div id="myGrid" class="ag-theme-balham" style="height: 300px; width: 535px;"></div>
     </div>
 </body>
 </html>
