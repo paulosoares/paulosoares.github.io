@@ -1,28 +1,30 @@
 #!/bin/sh
 
-###### Rodar uma vez no início do SiSU ######
-# Todos os cursos:
-curl 'https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/cursos/alfabeto' --compressed > cursos.json
+# ###### Rodar uma vez no início do SiSU ######
+# # Todos os cursos:
+# curl 'https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/cursos/alfabeto' --compressed > cursos.json
 
-# Todos os municípios
-curl 'https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/municipios/uf' --compressed > municipios.json
+# # Todos os municípios
+# curl 'https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/municipios/uf' --compressed > municipios.json
 
-# Todas as instituições
-curl 'https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/instituicoes/uf' --compressed > instituicoes.json
+# # Todas as instituições
+# curl 'https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/instituicoes/uf' --compressed > instituicoes.json
 
-# Baixar informações sobre instituições
-mkdir -p instituicoes
-for i in `jq -r ".[] | .[] | .co_ies" instituicoes.json | sort -uh`; do echo "instituicoes/$i"; bash -c "curl -# 'https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/instituicao/3223/$i' --compressed > instituicoes/$i.json"; done
+# # Baixar informações sobre instituições
+# mkdir -p instituicoes
+# for i in `jq -r ".[] | .[] | .co_ies" instituicoes.json | sort -uh`; do echo "instituicoes/$i"; bash -c "curl -# 'https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/instituicao/3223/$i' --compressed > instituicoes/$i.json"; done
 
-# Baixar informações sobre cursos
-mkdir -p cursos
-for i in `jq ".[] | .[] | .co_curso" cursos.json | sort -uh`; do bash -c "curl -sS 'https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/curso/$i' --compressed > cursos/$i.json"; done
+# # Baixar informações sobre cursos
+# mkdir -p cursos
+# for i in `jq ".[] | .[] | .co_curso" cursos.json | sort -uh`; do bash -c "curl -sS 'https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/curso/$i' --compressed > cursos/$i.json"; done
 
 
 
 
 ###### Rodar diariamente ######
-DIA=dia1
+DIA=dia3
+cd /home/paulo/paulosoares.github.io/sisu2020.2
+
 # Baixar notas de corte de cada oferta (rodar esse comando para cada parcial)
 mkdir -p $DIA
 for j in `find cursos/ -type f`; do for i in `jq -r '.[] | .co_oferta?' $j`; do echo "$DIA/$i.json"; bash -c "curl -# 'https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/$i/modalidades' --compressed -o $DIA/$i.json"; done; done
@@ -37,16 +39,20 @@ for j in `find cursos/ -type f | grep -f lista`; do for i in `jq -r '.[] | .co_o
 for j in `find cursos/37.json -type f`; do for i in `jq -r '.[] | .co_oferta?' $j`; do jq '.oferta as $oferta | .modalidades[] | {no_curso: $oferta.no_curso, sg_ies: $oferta.sg_ies, no_municipio_campus:$oferta.no_municipio_campus, sg_uf_campus:$oferta.sg_uf_campus, nu_nota_corte: .nu_nota_corte, co_concorrencia: .co_concorrencia, tp_mod_concorrencia: .tp_mod_concorrencia, no_concorrencia: .no_concorrencia}' $DIA/$i.json ; done; done | jq -r 'join("\t")' > corte_medicina_$DIA.tsv
 
 # Gerar notas de corte de ampla concorrência (co_concorrencia == 0):
-for i in `jq -r '.[] | .co_oferta?' cursos/37.json`; do jq -c '{universidade:.oferta.sg_ies, cidade:.oferta.no_municipio_campus, uf:.oferta.sg_uf_campus, RD:.oferta.nu_peso_r, CN:.oferta.nu_peso_cn, CH:.oferta.nu_peso_ch, LC:.oferta.nu_peso_l, MT:.oferta.nu_peso_m, vagas:.modalidades[] | select(.co_concorrencia == "0") | .qt_vagas_concorrencia,  corte2020:.modalidades[] | select(.co_concorrencia == "0") | .nu_nota_corte}' $DIA/$i.json; done >> bd$DIA_temp
-echo "[" > bd$DIA; 
-paste -sd "," bd$DIA_temp >> bd$DIA
-echo "]" >> bd$DIA;
-rm bd$DIA_temp;
+for i in `jq -r '.[] | .co_oferta?' cursos/37.json`; do jq -c '{universidade:.oferta.sg_ies, cidade:.oferta.no_municipio_campus, uf:.oferta.sg_uf_campus, RD:.oferta.nu_peso_r, CN:.oferta.nu_peso_cn, CH:.oferta.nu_peso_ch, LC:.oferta.nu_peso_l, MT:.oferta.nu_peso_m, vagas:.modalidades[] | select(.co_concorrencia == "0") | .qt_vagas_concorrencia,  corte2020:.modalidades[] | select(.co_concorrencia == "0") | .nu_nota_corte}' $DIA/$i.json; done > bd1$DIA
+echo "[" > bd2$DIA; 
+paste -sd "," bd1$DIA >> bd2$DIA
+echo "]" >> bd2$DIA;
+cat bd2$DIA | awk 'NR > 1 { } {printf "%s",$0}' > bd;
+rm bd1$DIA bd2$DIA;
 
 #Atualiza o horário
 date +"%x às %X ($DIA)" > horario
 
+git add .
+git -a -m "Atualização"
+git push
 
 ###### Monitoramento ######
 # Monitorar liberação das notas
-bash -c 'echo -e "\nAguarde..."; while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' https://sisualuno-api.apps.mec.gov.br/api/v1/oferta/116974/modalidades)" != "200" ]]; do sleep 5; done; echo -e "Dados carregados"'
+# bash -c 'echo -e "\nAguarde..."; while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' https://sisualuno-api-pcr.apps.mec.gov.br/api/v1/edicao/ativa)" != "200" ]]; do sleep 5; done; echo -e "Dados carregados"'
