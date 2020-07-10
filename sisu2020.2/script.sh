@@ -50,7 +50,7 @@ rm bd1$DIA bd2$DIA;
 date +"%x às %X ($DIA)" > horario
 
 git add .
-git -a -m "Atualização"
+git commit -a -m "Atualização"
 git push
 
 ###### Monitoramento ######
