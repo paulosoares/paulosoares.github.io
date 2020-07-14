@@ -55,4 +55,4 @@ git push
 
 ###### Monitoramento ######
 # Monitorar liberação das notas
-# bash -c 'echo -e "\nAguarde..."; while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' https://sisualuno-api-pcr.apps.mec.gov.br/api/v1/edicao/ativa)" != "200" ]]; do sleep 5; done; echo -e "Dados carregados"'
+bash -c 'echo -e "\nAguarde..."; while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' https://sisualuno-api-pcr.apps.mec.gov.br/api/v1/edicao/ativa)" != "200" ]]; do sleep 5; done; echo -e "Dados carregados"'
