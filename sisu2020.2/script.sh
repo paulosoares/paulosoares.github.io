@@ -26,8 +26,7 @@ DIA=final
 cd /home/paulo/paulosoares.github.io/sisu2020.2
 
 # Baixar notas de corte de cada oferta (rodar esse comando para cada parcial)
-mkdir -p $DIA
-for j in `find cursos/ -type f`; do for i in `jq -r '.[] | .co_oferta?' $j`; do echo "$DIA/$i.json"; bash -c "curl -# 'https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/$i/modalidades' --compressed -o $DIA/$i.json"; done; done
+for j in `find cursos/ -type f`; do for i in `jq -r '.[] | .co_oferta?' $j`; do echo $i; done; done | fmt -w300 | tr ' ' ',' | awk -v url="https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta" '{print url "/{" $1 "}/modalidades"}' | xargs -n1 curl -s -Z --compressed --create-dirs -o "$DIA/#1.json"
 	
 # Consolidar todas as notas de corte
 for j in `find cursos/ -type f`; do for i in `jq -r '.[] | .co_oferta?' $j`; do jq '.oferta as $oferta | .modalidades[] | {no_curso: $oferta.no_curso, sg_ies: $oferta.sg_ies, no_municipio_campus:$oferta.no_municipio_campus, sg_uf_campus:$oferta.sg_uf_campus, nu_nota_corte: .nu_nota_corte, co_concorrencia: .co_concorrencia, tp_mod_concorrencia: .tp_mod_concorrencia, no_concorrencia: .no_concorrencia}' $DIA/$i.json ; done; done | jq -r 'join("\t")' > corte_$DIA.tsv
@@ -71,18 +70,23 @@ for j in `find cursos/ -type f`; do for i in `jq -r 'del(.search_rule) | .[] | .
 
 ###### Comparar lista de selecionados JSON com CSV ######
 
-for i in `find selecionados/ -type f`; do jq -r ".[] | .no_inscrito" $i; done >> selecionados_json.txt
+for i in `find selecionados/ -type f`; do jq -r ".[] | .no_inscrito" $i; done > selecionados_json.txt
 sort selecionados_json.txt -o selecionados_json_ordenado.txt
+rm selecionados_json.txt
 
 for i in `find selecionados_csv_mec/* -type f`; do csvjson -d ';' -K 1 -H $i | jq -r ".[] | .l"; done > selecionados_csv_mec.txt
 sort selecionados_csv_mec.txt -o selecionados_csv_mec_ordenado.txt
+rm selecionados_csv_mec.txt
 
-diff selecionados_json_ordenado.txt selecionados_csv_mec_ordenado.txt | less
+diff selecionados_json_ordenado.txt selecionados_csv_mec_ordenado.txt
 
 
 # Baixar lista de espera
-mkdir -p lista_espera
-for j in `find cursos/ -type f`; do for i in `jq -r '.[] | .co_oferta?' $j`; do echo "lista_espera/$i.json"; bash -c "curl -Z -# 'https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/$i/selecionados-lista-espera' --compressed -o lista_espera/$i.json"; done; done
+rm -rf lista_espera
+for j in `find cursos/ -type f`; do for i in `jq -r '.[] | .co_oferta?' $j`; do echo $i; done; done | fmt -w300 | tr ' ' ',' | awk -v url="https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta" '{print url "/{" $1 "}/selecionados-lista-espera"}' | xargs -n1 curl -s -Z --compressed --create-dirs -o 'lista_espera/#1.json'
 
 #Minha posição na UFRJ
 jq -r -c ".[] | .no_inscrito" lista_espera/148844.json | nl | grep -i "Paulo Augusto"
+
+
+
