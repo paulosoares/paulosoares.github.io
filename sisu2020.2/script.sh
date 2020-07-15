@@ -1,28 +1,28 @@
 #!/bin/sh
 
 # ###### Rodar uma vez no início do SiSU ######
-# # Todos os cursos:
-# curl 'https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/cursos/alfabeto' --compressed > cursos.json
+# Todos os cursos:
+curl 'https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/cursos/alfabeto' --compressed > cursos.json
 
-# # Todos os municípios
-# curl 'https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/municipios/uf' --compressed > municipios.json
+# Todos os municípios
+curl 'https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/municipios/uf' --compressed > municipios.json
 
-# # Todas as instituições
-# curl 'https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/instituicoes/uf' --compressed > instituicoes.json
+# Todas as instituições
+curl 'https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/instituicoes/uf' --compressed > instituicoes.json
 
-# # Baixar informações sobre instituições
-# mkdir -p instituicoes
-# for i in `jq -r ".[] | .[] | .co_ies" instituicoes.json | sort -uh`; do echo "instituicoes/$i"; bash -c "curl -# 'https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/instituicao/3223/$i' --compressed > instituicoes/$i.json"; done
+# Baixar informações sobre instituições
+mkdir -p instituicoes
+for i in `jq -r ".[] | .[] | .co_ies" instituicoes.json | sort -uh`; do echo "instituicoes/$i"; bash -c "curl -# 'https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/instituicao/$i' --compressed > instituicoes/$i.json"; done
 
-# # Baixar informações sobre cursos
-# mkdir -p cursos
-# for i in `jq ".[] | .[] | .co_curso" cursos.json | sort -uh`; do bash -c "curl -sS 'https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/curso/$i' --compressed > cursos/$i.json"; done
+# Baixar informações sobre cursos
+mkdir -p cursos
+for i in `jq ".[] | .[] | .co_curso" cursos.json | sort -uh`; do bash -c "curl -sS 'https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/curso/$i' --compressed > cursos/$i.json"; done
 
 
 
 
 ###### Rodar diariamente ######
-DIA=dia4
+DIA=final
 cd /home/paulo/paulosoares.github.io/sisu2020.2
 
 # Baixar notas de corte de cada oferta (rodar esse comando para cada parcial)
@@ -78,3 +78,11 @@ for i in `find selecionados_csv_mec/* -type f`; do csvjson -d ';' -K 1 -H $i | j
 sort selecionados_csv_mec.txt -o selecionados_csv_mec_ordenado.txt
 
 diff selecionados_json_ordenado.txt selecionados_csv_mec_ordenado.txt | less
+
+
+# Baixar lista de espera
+mkdir -p lista_espera
+for j in `find cursos/ -type f`; do for i in `jq -r '.[] | .co_oferta?' $j`; do echo "lista_espera/$i.json"; bash -c "curl -Z -# 'https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/$i/selecionados-lista-espera' --compressed -o lista_espera/$i.json"; done; done
+
+#Minha posição na UFRJ
+jq -r -c ".[] | .no_inscrito" lista_espera/148844.json | nl | grep -i "Paulo Augusto"
