@@ -89,4 +89,5 @@ for j in `find cursos/ -type f`; do for i in `jq -r '.[] | .co_oferta?' $j`; do 
 jq -r -c ".[] | .no_inscrito" lista_espera/148844.json | nl | grep -i "Paulo Augusto"
 
 
-
+#Pega a atualização da lista de espera assim que ela estiver disponível
+bash -c 'echo -e "\nAguarde..."; while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/148844/selecionados-lista-espera)" != "200" ]]; do sleep 5; done; notify-send "Dados carregados"'; for j in `find cursos/ -type f`; do for i in `jq -r '.[] | .co_oferta?' $j`; do echo $i; done; done | fmt -w300 | tr ' ' ',' | awk -v url="https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta" '{print url "/{" $1 "}/selecionados-lista-espera"}' | xargs -n1 curl -s -Z --compressed --create-dirs -o 'lista_espera/#1.json'
