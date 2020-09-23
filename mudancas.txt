@@ -24,4 +24,3 @@
             'rag-yellow': 'data.nota != null && data.diferenca != null && data.diferenca < 3 && data.diferenca >= -3',
             'rag-red': 'data.nota != null && data.diferenca != null && data.diferenca < -3',
         }
-          
