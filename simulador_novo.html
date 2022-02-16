@@ -96,7 +96,8 @@
         { headerName: 'Cidade', valueGetter: function(params) {return params.data.cidade + "/" + params.data.uf;}, width: 175, cellStyle: { textAlign: "left" }, tooltipField: 'pesos' },
         { headerName: 'Vagas', field: 'vagas', width: 60, type: "numericColumn", cellStyle: { textAlign: "center" }, hide: false },
         { headerName: 'Nota de Corte', field: 'corte', width: 130, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },  
-        { headerName: 'Sua Nota', field: 'nota', width: 80, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, tooltipField: 'pesos' },      
+        { headerName: 'Sua Nota', field: 'nota', width: 80, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, tooltipField: 'pesos' },
+        { headerName: 'Diferença', field: 'diferenca', width: 80, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },      
                
     ];
 
@@ -152,7 +153,6 @@
                 data.nota = null
 
             data.diferenca = null;
-            data.diferencaultchamada = null;
             data.pesos = "Pesos\n" + "\nLC: " + data.LC + "\nCH: " + data.CH + "\nCN: " + data.CN + "\nMT: " + data.MT + "\nRD: " + data.RD;
 
             if (data.corte != "" && data.corte != 0)
@@ -187,7 +187,7 @@
         new agGrid.Grid(eGridDiv, gridOptions);
     });    
 
-    fetch('https://paulosoares.github.io/dia1_parcial2.json').then(function(response) {
+    fetch('https://paulosoares.github.io/novo.json').then(function(response) {
         return response.json();
     }).then(function(rows) {
         gridOptions.api.setRowData(rows);
@@ -258,11 +258,14 @@
         </div>
 
         <br />
-        <span class="font-weight-bold">Autor: Paulo Soares </span><br />(Aceitando pix: paulosoares@gmail.com) <br />Todos os direitos reservados</span>
 
-        <div class="mx-auto" style="width: 510px;">
-            <div id="myGrid" class="ag-theme-balham" style="height: 470px;"></div>
+        <div class="mx-auto" style="width: 650px;">
+            <div id="myGrid" class="ag-theme-balham" style="height: 300px;"></div>
         </div>
+
+        <br />
+
+        <span class="font-weight-bold">Autor: Paulo Soares </span><br />(Aceitando pix: paulosoares@gmail.com) <br />Todos os direitos reservados</span>
 
     </div>
 </body>
