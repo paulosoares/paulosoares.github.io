@@ -97,8 +97,7 @@
         { headerName: 'Vagas', field: 'vagas', width: 60, type: "numericColumn", cellStyle: { textAlign: "center" }, hide: false },
         { headerName: 'Nota de Corte', field: 'corte', width: 130, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },  
         { headerName: 'Sua Nota', field: 'nota', width: 80, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, tooltipField: 'pesos' },
-        { headerName: 'Diferença', field: 'diferenca', width: 80, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false },      
-               
+        { headerName: 'Diferença', field: 'diferenca', width: 80, type: "numericColumn", valueFormatter: numberFormatter, cellStyle: { textAlign: "center" }, hide: false }               
     ];
 
     const gridOptions = {
@@ -112,15 +111,7 @@
         rowClassRules: {
             'rag-green': 'data.nota != null && data.diferenca != null && data.diferenca >= 0'
         }
-    };
-
-    function diferencaSorting(o1, o2) {
-
-        if (o1 == null || o2 == null || o1 == "" || o1 == "")
-            return -1;
-
-        return o1 > o2;
-    }
+    };    
 
     function calcularNota() {
         var lx = document.forms[0]["l"].value;
@@ -162,10 +153,12 @@
         });
 
         gridOptions.api.setRowData(itemsToUpdate);
-        gridOptions.api.updateRowData({ update: itemsToUpdate });
+        gridOptions.api.applyTransaction({ update: itemsToUpdate });
 
-        var sort = [{ colId: 'diferenca', sort: 'desc' }];
-        gridOptions.api.setSortModel(sort);
+        gridOptions.columnApi.applyColumnState({
+            state: [{ colId: 'diferenca', sort: 'desc' }],
+            defaultState: { sort: null },
+        });       
     }
 
     document.addEventListener("DOMContentLoaded", function() {
@@ -265,7 +258,7 @@
 
         <br />
 
-        <span class="font-weight-bold">Autor: Paulo Soares </span><br />(Aceitando pix: paulosoares@gmail.com) <br />Todos os direitos reservados</span>
+        <span class="font-weight-bold">(Autor: Paulo Soares)</span>
 
     </div>
 </body>
